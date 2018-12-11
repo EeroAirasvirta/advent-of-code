@@ -1,7 +1,5 @@
-#include <algorithm>
 #include <fstream>
 #include <iostream>
-#include <map>
 #include <string>
 #include <vector>
 
@@ -21,22 +19,26 @@ int main(int argc, char* argv[])
   }
   istream.close();
 
-  std::sort(ids.begin(), ids.end());
-
   for (auto i = 0u; i < ids.size() - 1 ; ++i) {
     const auto& str1 = ids.at(i);
-    const auto& str2 = ids.at(i+1);
-    if (str1.length() != str2.length()) {
-      break;
-    }
 
-    for (auto j = 0u; j < str1.length(); ++j) {
-      if (str1.at(j) != str2.at(j)) {
-        if (str1.compare(j+1, str1.length() - 1 - j, str2, j+1, str2.length() - 1 - j) != 0) {
-          break;
+    for (auto j = i+1; j < ids.size(); ++j) {
+      const auto& str2 = ids.at(j);
+      if (str1.length() != str2.length()) {
+        break;
+      }
+
+      auto diffIndex{-1};
+      auto differencies{0u};
+      for (auto k = 0u; k < str1.length(); ++k) {
+        if (str1.at(k) != str2.at(k)) {
+          ++differencies;
+          diffIndex = static_cast<int>(k);
         }
+      }
 
-        std::cout << str1.substr(0, j) << str1.substr(j+1, str1.length() - 1 -j) << std::endl;
+      if (differencies == 1) {
+        std::cout << str1.substr(0, diffIndex) << str1.substr(diffIndex+1, str1.length() - i - diffIndex) << std::endl;
         return 0;
       }
     }
