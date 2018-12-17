@@ -4,8 +4,6 @@ project(04-1_repose-record)
 add_executable(${PROJECT_NAME}
   "main.cpp")
 
-include_directories(include)
-
 add_custom_command(
   TARGET ${PROJECT_NAME} POST_BUILD
   COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/input.txt ${CMAKE_CURRENT_BINARY_DIR}/input.txt
